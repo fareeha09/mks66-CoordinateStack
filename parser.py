@@ -77,13 +77,11 @@ def parse_file( fname, edges, polygons, csystems, screen, color ):
             args = lines[c].strip().split(' ')
 
         if line == 'push': #add to the end of csystems
-            print( "len = {} | prev matrix before push".format(len(csystems)) )
-            print_matrix(csystems[len(csystems)-1])
-			
+            #print( "before push" )
+            #print_matrix(csystems[len(csystems)-1])
             csystems.append([j[:] for j in csystems[-1]])		
-			
-            print( "pushed to stack" )
-            print_matrix( csystems[ len(csystems) - 1  ])
+            #print( "after push" )
+            #print_matrix(csystems[len(csystems) - 1])
 			
         if line == 'pop': #remove from the end of csystems
             csystems.pop()
@@ -104,8 +102,9 @@ def parse_file( fname, edges, polygons, csystems, screen, color ):
             add_torus(polygons,
                       float(args[0]), float(args[1]), float(args[2]),
                       float(args[3]), float(args[4]), step_3d)
-            top = csystems[len(csystems)-1]
-            matrix_mult(top, polygons)
+            #top = csystems[len(csystems)-1]
+            #matrix_mult(top, polygons)
+            matrix_mult(csystems[len(csystems)-1], polygons)
             draw_polygons(polygons, screen, color)
             polygons = []
 
@@ -114,8 +113,9 @@ def parse_file( fname, edges, polygons, csystems, screen, color ):
             add_box(polygons,
                     float(args[0]), float(args[1]), float(args[2]),
                     float(args[3]), float(args[4]), float(args[5]))
-            top = csystems[len(csystems)-1]
-            matrix_mult(top, polygons)
+            #top = csystems[len(csystems)-1]
+            #matrix_mult(top, polygons)
+            matrix_mult(csystems[len(csystems)-1], polygons)
             draw_polygons(polygons, screen, color)
             polygons = []
             
@@ -124,8 +124,9 @@ def parse_file( fname, edges, polygons, csystems, screen, color ):
             add_circle(edges,
                        float(args[0]), float(args[1]), float(args[2]),
                        float(args[3]), step)
-            top = csystems[len(csystems)-1]
-            matrix_mult(top, edges)
+            #top = csystems[len(csystems)-1]
+            #matrix_mult(top, polygons)
+            matrix_mult(csystems[len(csystems)-1], polygons)
             draw_lines(edges, screen, color)
             edges = []			
 
@@ -137,8 +138,9 @@ def parse_file( fname, edges, polygons, csystems, screen, color ):
                       float(args[4]), float(args[5]),
                       float(args[6]), float(args[7]),
                       step, line)
-            top = csystems[len(csystems)-1]
-            matrix_mult(top, edges)
+            #top = csystems[len(csystems)-1]
+            #matrix_mult(top, polygons)
+            matrix_mult(csystems[len(csystems)-1], polygons)
             draw_lines(edges, screen, color)
             edges = []
 			
@@ -148,24 +150,27 @@ def parse_file( fname, edges, polygons, csystems, screen, color ):
             add_edge( edges,
                       float(args[0]), float(args[1]), float(args[2]),
                       float(args[3]), float(args[4]), float(args[5]) )
-            top = csystems[len(csystems)-1]
-            matrix_mult(top, edges)
+            #top = csystems[len(csystems)-1]
+            #matrix_mult(top, polygons)
+            matrix_mult(csystems[len(csystems)-1], polygons)
             draw_lines(edges, screen, color)
             edges = []
 			
         elif line == 'scale':
             #print 'SCALE\t' + str(args)
             t = make_scale(float(args[0]), float(args[1]), float(args[2]))
-            top = csystems[len(csystems)-1]
-            matrix_mult(top, t)
+            #top = csystems[len(csystems)-1]
+            #matrix_mult(top, t)
+            matrix_mult(csystems[len(csystems)-1], t)
             #matrix_mult(t, transform)
             csystems[len(csystems)-1] = t
 			
         elif line == 'move':
             #print 'MOVE\t' + str(args)
             t = make_translate(float(args[0]), float(args[1]), float(args[2]))
-            top = csystems[len(csystems)-1]
-            matrix_mult(top, t)
+            #top = csystems[len(csystems)-1]
+            #matrix_mult(top, t)
+            matrix_mult(csystems[len(csystems)-1], t)
 			
             csystems[len(csystems)-1] = t
             #matrix_mult(t, transform)
@@ -180,8 +185,9 @@ def parse_file( fname, edges, polygons, csystems, screen, color ):
                 t = make_rotY(theta)
             else:
                 t = make_rotZ(theta)
-            top = csystems[len(csystems)-1]
-            matrix_mult(top, t)
+            #top = csystems[len(csystems)-1]
+            #matrix_mult(top, t)
+            matrix_mult(csystems[len(csystems)-1], t)
 			
             csystems[len(csystems)-1] = t
 
