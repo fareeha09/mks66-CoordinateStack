@@ -57,7 +57,9 @@ The file follows the following format:
 
 See the file script for an example of the file format
 """
-ARG_COMMANDS = [ 'box', 'sphere', 'torus', 'circle', 'bezier', 'hermite', 'line', 'scale', 'move', 'rotate', 'save', 'pop', 'push' ]
+ARG_COMMANDS = [ 'box', 'sphere', 'torus', 'circle', 'bezier', 'hermite', 'line', 'scale', 'move', 'rotate', 'save' ]
+
+#Tabassum Fabiha helped me debug on Monday during 8th
 
 def parse_file( fname, edges, polygons, csystems, screen, color ):
 
@@ -83,10 +85,10 @@ def parse_file( fname, edges, polygons, csystems, screen, color ):
             #print( "after push" )
             #print_matrix(csystems[len(csystems) - 1])
 			
-        if line == 'pop': #remove from the end of csystems
+        elif line == 'pop': #remove from the end of csystems
             csystems.pop()
          
-        if line == 'sphere':
+        elif line == 'sphere':
             #print 'SPHERE\t' + str(args)
             add_sphere(polygons,
                        float(args[0]), float(args[1]), float(args[2]),
@@ -166,6 +168,7 @@ def parse_file( fname, edges, polygons, csystems, screen, color ):
             csystems[len(csystems)-1] = t
 			
         elif line == 'move':
+            #print("doing something")
             #print 'MOVE\t' + str(args)
             t = make_translate(float(args[0]), float(args[1]), float(args[2]))
             #top = csystems[len(csystems)-1]
@@ -173,6 +176,9 @@ def parse_file( fname, edges, polygons, csystems, screen, color ):
             matrix_mult(csystems[len(csystems)-1], t)
 			
             csystems[len(csystems)-1] = t
+
+            #print("moved")
+            #print_matrix(csystems[-1])
             #matrix_mult(t, transform)
 
         elif line == 'rotate':
@@ -190,7 +196,11 @@ def parse_file( fname, edges, polygons, csystems, screen, color ):
             matrix_mult(csystems[len(csystems)-1], t)
 			
             csystems[len(csystems)-1] = t
+            
+            #print("rotated")
+            #print_matrix(csystems[-1])
 
+            
         elif line == 'display' or line == 'save':
 
             if line == 'display':
